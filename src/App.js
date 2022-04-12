@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Input from "./components/Input";
 import Select from "./components/Select";
@@ -13,8 +13,10 @@ import {
   DEFAULT_USER_STATE,
 } from "./constants";
 import Db from "./Db";
+import View from "./View";
 
 function App() {
+  
   const [user, setUser] = React.useState(DEFAULT_USER_STATE);
   const [findUser, setFindUser] = React.useState(false)
   const [getUser,setGetUser] = React.useState({
@@ -26,6 +28,12 @@ function App() {
         services:""
 
   })
+  const [view,setView] = useState(false);
+  const data = JSON.parse(localStorage.getItem("entries"))
+  const data2 = []
+
+ 
+  const [entries,setEntries] = React.useState([])
   const handleChange = (e) => {
     if (e.target.type === "checkbox" && e.target.name === "services") {
       const { value, checked } = e.target;
@@ -82,11 +90,12 @@ function App() {
       return;
     }
 
-    if (Db.set(user.username, user)) {
-      alert("User Added Successfully");
-    }
+    setEntries(preValues=>{
+      return[...preValues,user]
+    })
   };
 
+  
   const handleReset = () => {
     setUser(DEFAULT_USER_STATE);
   };
@@ -163,9 +172,7 @@ function App() {
     else{
       updatedData.services=user.services
     }
-  Db.delete(user.username)
-  setUser(updatedData)
-  Db.set(user.username,user)
+  
   }  
   else{
       alert("User not found")
@@ -173,6 +180,17 @@ function App() {
 
     
   }
+
+ function handleView()
+ {
+   setView(true)
+ }
+
+ useEffect(() => {
+  localStorage.setItem("Details", JSON.stringify(entries));
+}, [entries]);
+
+
 
   return (
     <div className="app">
@@ -240,9 +258,9 @@ function App() {
       </form>
       <div>
         <Button
-          name="ufind"
-          onClick={handleFind}
-          label="Find"
+          name="uview"
+          onClick={handleView}
+          label="View"
         />
         <Button
           name="udelete"
@@ -257,14 +275,9 @@ function App() {
         />
       </div>
       <div>
-      {findUser?<ul>
-        <li>{getUser.username}</li>
-        <li>{getUser.password}</li>
-        <li>{getUser.city}</li>
-        <li>{getUser.server}</li>
-        <li>{getUser.role}</li>
-        <li>{getUser.services}</li>
-      </ul>:""}
+        {view?(entries.map((entry,id)=>{
+          return(<View username={entry.username} password={entry.password} city={entry.city} server={entry.server} role={entry.role} services={entry.services}/>)
+        })):""}
       </div>
     </div>
   );
