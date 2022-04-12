@@ -1,0 +1,77 @@
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+.group-label {
+  width: 180px;
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+.group-data {
+  flex: 1;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  padding: 0.3rem;
+  font-size: 1rem;
+  border: 1px solid rgb(8, 130, 230);
+  outline: none;
+  background: #fff;
+}
+
+.form-btn {
+  padding: 0.3rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background: rgb(8, 130, 230);
+  cursor: pointer;
+  border-radius: 3px;
+  width: 140px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.7rem;
+  margin-right: 2rem;
+}
+
+.form-btn:hover {
+  background-color: rgb(33, 155, 226);
+}
+
+
+.app {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-create-user {
+  margin-top: 150px;
+}
+
+.btn-control {
+  flex-direction: row;
+}
