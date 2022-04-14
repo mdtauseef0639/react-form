@@ -4,6 +4,7 @@ export const roles = ["Admin", "Engineer", "Manager", "Guest"];
 export const services = ["Mail", "Payroll", "Self-Service"];
 
 export const DEFAULT_USER_STATE = {
+  id:"",
   username: "",
   password: "",
   city: "",
