@@ -20,7 +20,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [user, setUser] = React.useState({
-    id:new Date().getTime().toString(),
+    id: new Date().getTime().toString(),
     username: "",
     password: "",
     city: "",
@@ -59,7 +59,7 @@ function App() {
     }
   };
 
-  const handleEdit = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
 
     //           Validate The Form
@@ -100,67 +100,33 @@ function App() {
       return;
     }
 
-    else if(user && toggleEdit)
-    {
+    else if (user && toggleEdit) {
       setEntries(
-        entries.map((entry)=>{
-          if(entry.id===isEditItem)
-          {
-            return{...entry,id:entry.id,username:user.username,password:user.password,city:user.city,server:user.server,role:user.role,services:user.services}
+        entries.map((entry) => {
+          if (entry.id === isEditItem) {
+            return { ...entry, id: entry.id, username: user.username, password: user.password, city: user.city, server: user.server, role: user.role, services: user.services }
 
           }
           return entry
-    
+
         })
       )
 
       setToggleEdit(false)
       setIsEditItem(null)
 
-    } 
-    
+    }
+    else {
+      setUser(x => {
+        return { ...x, id: new Date().getTime().toString() }
+      })
+      setEntries(preValues => {
+        return [...preValues, user]
+      })
+    }
+
   };
 
-  function handleSubmit(e)
-  {e.preventDefault();
-
-    // Validate The Form
-    if (user.username.length < 3) {
-      alert("Username must be at least 3 characters long");
-      return;
-    }
-
-    if (!user.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/)) {
-      alert("Password must be required and must have 8 characters and at least 1 digit.");
-      return;
-    }
-
-    if (!user.city.length || user.city.length < 3) {
-      alert("City must be at least 3 characters long");
-      return;
-    }
-
-    if (user.server === selectTitle || !webServers.includes(user.server)) {
-      alert("Please select a web server");
-      return;
-    }
-
-    if (!user.role) {
-      alert("Please select a role");
-      return;
-    }
-
-    if (user.services.length === 0) {
-      alert("Please select atleast 1 Single Sign-on service");
-      return;
-    }
-    setUser(x=>{
-      return{...x,id:new Date().getTime().toString()}
-    })
-    setEntries(preValues=>{
-      return[...preValues,user]
-    })
-  }
 
   const handleReset = () => {
     setUser(DEFAULT_USER_STATE);
@@ -175,21 +141,9 @@ function App() {
       return entry.id === id;
     });
 
-  
+
     setIsEditItem(id);
     setToggleEdit("true")
-
-    // setEntries(newEditItem);
-    // setEntries({
-    //   username: newEditItem.username,
-    //   password: newEditItem.password,
-    //   city: newEditItem.city,
-    //   server: newEditItem.server,
-    //   role: newEditItem.role,
-    //   services: newEditItem.services,
-    // });
-    setIsEditItem(id);
-    setToggleEdit("true");
   }
 
   function deleteItem(id) {
@@ -204,7 +158,7 @@ function App() {
     localStorage.setItem("Details", JSON.stringify(entries));
   }, [entries]);
 
-  
+
 
   return (
     <div className="app">
@@ -254,11 +208,11 @@ function App() {
         <div className="form-group">
           <div className="group-label" />
           <div className="group-data btn-control">
-            <Button onClick={handleSubmit} variant="contained" style={{marginRight:"px"}}>
+            <Button onClick={handleSave} variant="contained" style={{ marginRight: "px" }}>
               Save
             </Button>
             {toggleEdit ? (
-              <Button onClick={handleEdit}>
+              <Button onClick={handleSave}>
                 <EditIcon /> Update
               </Button>
             ) : null}
@@ -279,21 +233,21 @@ function App() {
           <Col md={8}>
             {view
               ? entries.map((entry) => {
-                  return (
-                    <View
-                      id={entry.id}
-                      key={entry.id}
-                      username={entry.username}
-                      password={entry.password}
-                      city={entry.city}
-                      server={entry.server}
-                      role={entry.role}
-                      services={entry.services}
-                      onDelete={deleteItem}
-                      onEdit={editItem}
-                    />
-                  );
-                })
+                return (
+                  <View
+                    id={entry.id}
+                    key={entry.id}
+                    username={entry.username}
+                    password={entry.password}
+                    city={entry.city}
+                    server={entry.server}
+                    role={entry.role}
+                    services={entry.services}
+                    onDelete={deleteItem}
+                    onEdit={editItem}
+                  />
+                );
+              })
               : ""}
           </Col>
         </Row>
