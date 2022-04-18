@@ -19,8 +19,16 @@ import View from "./View";
 import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
+
+  const [saveUser,setSaveUser] = useState({
+    id:"",
+    username: "",
+    password: "",
+    city: "",
+    server: "",
+    role: "",
+    services: [],})
   const [user, setUser] = React.useState({
-    id: new Date().getTime().toString(),
     username: "",
     password: "",
     city: "",
@@ -28,6 +36,7 @@ function App() {
     role: "",
     services: [],
   });
+
   const [toggleEdit, setToggleEdit] = useState(false);
   const [isEditItem, setIsEditItem] = useState(null);
   const [view, setView] = useState(false);
@@ -98,9 +107,12 @@ function App() {
     if (user.services.length === 0) {
       alert("Please select atleast 1 Single Sign-on service");
       return;
+
     }
+    
 
     else if (user && toggleEdit) {
+
       setEntries(
         entries.map((entry) => {
           if (entry.id === isEditItem) {
@@ -113,6 +125,14 @@ function App() {
       )
 
       setToggleEdit(false)
+      setUser({
+        username: "",
+        password: "",
+        city: "",
+        server: "",
+        role: "",
+        services: [],
+      })
       setIsEditItem(null)
 
     }
@@ -122,6 +142,14 @@ function App() {
       })
       setEntries(preValues => {
         return [...preValues, user]
+      })
+      setUser({
+        username: "",
+        password: "",
+        city: "",
+        server: "",
+        role: "",
+        services: [],
       })
     }
 
@@ -141,7 +169,7 @@ function App() {
       return entry.id === id;
     });
 
-
+    
     setIsEditItem(id);
     setToggleEdit(!toggleEdit)
   }
