@@ -133,7 +133,7 @@ function App() {
   };
 
   function handleView() {
-    setView(true);
+    setView(!view);
   }
 
   function editItem(id) {
@@ -224,9 +224,11 @@ function App() {
         </div>
       </form>
       <div>
-        <Button variant="contained" onClick={handleView}>
+        {view?(<Button variant="contained" onClick={handleView}>
+          Hide
+        </Button>):(<Button variant="contained" onClick={handleView}>
           View
-        </Button>
+        </Button>)}
       </div>
       <Container fluid>
         <Row>
