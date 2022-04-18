@@ -143,15 +143,22 @@ function App() {
 
 
     setIsEditItem(id);
-    setToggleEdit("true")
+    setToggleEdit(!toggleEdit)
   }
 
   function deleteItem(id) {
-    setEntries((prevItem) => {
-      return prevItem.filter((entry) => {
-        return entry.id !== id;
+    
+    const s =prompt("Type y to delete n to cancel")
+    if(s==="y" || s==="Y")
+    {
+      setEntries((prevItem) => {
+        return prevItem.filter((entry) => {
+          return entry.id !== id;
+        });
       });
-    });
+    }
+    
+    
   }
 
   useEffect(() => {
